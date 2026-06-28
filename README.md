@@ -160,32 +160,20 @@ torchrun --nproc_per_node=2 --master_port=23452 main/main.py --config config/tes
 torchrun --nproc_per_node=2 --master_port=23452 main/main.py --config config/test/test-h36m-custom.yaml --exp experiment/scorenet --doc h36m --validate --multihypo_n 100 --batch_size 80
 
 ```
-<!-- - Logs and results  will be saved to `HMR-Scorer/output/test_{JOB_NAME}_ep{CKPT_ID}_{TEST_DATSET}` -->
 
+## 🚄 Training
 
-<!-- ## Training
+### ADHMR
+
 ```bash
-cd main
-sh slurm_train.sh {JOB_NAME} {NUM_GPU} {CONFIG_FILE}
-
-# For training SMPLer-X-H32 with 16 GPUS
-sh slurm_train.sh smpler_x_h32 16 config_smpler_x_h32.py
+# To train on 3DPW
+torchrun main/main.py --config config/train/hyponet/instavariety-dpo-scorer.yaml --exp experiment/hyponet --doc instavariety-dpo
+# To train on Human3.6M
+torchrun main/main.py --config config/train/hyponet/h36m-dpo.yaml --exp experiment/hyponet --doc h36m-dpo
 
 ```
-- CONFIG_FILE is the file name under `SMPLer-X/main/config`
-- Logs and checkpoints will be saved to `SMPLer-X/output/train_{JOB_NAME}_{DATE_TIME}` -->
 
 
-
-
-<!-- ## FAQ
-- `RuntimeError: Subtraction, the '-' operator, with a bool tensor is not supported. If you are trying to invert a mask, use the '~' or 'logical_not()' operator instead.`
-  
-  Follow [this post](https://github.com/mks0601/I2L-MeshNet_RELEASE/issues/6#issuecomment-675152527) and modify `torchgeometry`
-
-- `KeyError: 'SinePositionalEncoding is already registered in position encoding'` or any other similar KeyErrors due to duplicate module registration.
-
-  Manually add `force=True` to respective module registration under `main/transformer_utils/mmpose/models/utils`, e.g. `@POSITIONAL_ENCODING.register_module(force=True)` in [this file](main/transformer_utils/mmpose/models/utils/positional_encoding.py) -->
 
 ## 📚 Citation
 If you find our work useful for your research, please consider citing the paper:
